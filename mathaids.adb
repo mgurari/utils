@@ -2,11 +2,11 @@ with Ada.Text_IO; use Ada.Text_IO;
 
 package body mathAids is
 
-	function diff(X1,Y1:dataArr) return resultArr is
+	function diff(X1,Y1:row) return matrix is
 		length:integer:=X1'length;
-		result:resultArr(1..2,1..length);
-		x:dataArr(1..length):=X1;
-		y:dataArr(1..length):=Y1;
+		result:matrix(1..2,1..length);
+		x:row(1..length):=X1;
+		y:row(1..length):=Y1;
 	begin
 		for i in 1..(length-1) loop
 			result(1,i):=(x(i+1)+x(i))/2.0;
@@ -15,11 +15,11 @@ package body mathAids is
 		return result;	
 	end diff;
 
-	function integ(X2,Y2:dataArr;takeAbs:boolean) return float is
+	function integ(X2,Y2:row;takeAbs:boolean) return float is
 		length:integer:=X2'length;
 		result:float:=0.0;
-		x:dataArr(1..length):=X2;
-		y:dataArr(1..length):=Y2;
+		x:row(1..length):=X2;
+		y:row(1..length):=Y2;
 	begin
 		case takeAbs is
 			when true=>null;
@@ -34,5 +34,20 @@ package body mathAids is
 		end loop;
 		return result;
 	end integ;
+
+	function formIdentMat(size:integer) return matrix is
+		result:matrix(1..size,1..size);
+	begin
+		for i in 1..size loop
+			for j in 1..size loop
+				if i=j then 
+					result(i,j):=(1.0);
+				else
+					result(i,j):=(0.0);
+				end if;
+			end loop;
+		end loop;
+		return result;
+	end formIdentMat;
 
 end mathAids;
