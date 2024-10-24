@@ -1,5 +1,3 @@
-with Ada.Text_IO; use Ada.Text_IO;
-
 package body mathAids is
 
 	function diff(X1,Y1:row) return matrix is
