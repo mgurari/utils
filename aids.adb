@@ -31,8 +31,7 @@ package body aids is
 		increment:float:=(fin-start)/float(elems);
 	begin
 		result(1):=start;
-		result(elems):=fin;
-		for i in 2..(elems-1) loop
+		for i in 2..(elems) loop
 			result(i):=result(i-1)+increment;
 		end loop;
 		return result;
