@@ -168,8 +168,8 @@ module mathaids
                         integer :: counter, info
                         B = eye(n)
                         info = 0
-                        c1 = (1d-4, 0d0)
-                        c2 = (0.9d0, 0d0)
+                        c1 = (1d-4, 0d0) ! stricter: 1d-6
+                        c2 = (0.9d0, 0d0) ! stricter: 0.3
                         counter = 0
                         converged = .false.
                         do while (converged .eqv. .false.)
