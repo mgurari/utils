@@ -1,4 +1,4 @@
-program mathaids
+module mathaids
         implicit none
 
         abstract interface
@@ -16,12 +16,6 @@ program mathaids
         integer, parameter :: dp = kind(1d0)
         double complex :: j = (0d0, 1d0)
         double complex :: e = cmplx(exp(1d0), 0d0, kind=dp)
-
-        double complex, dimension(2) :: x
-        integer :: q
-        x = [(5d0, 0d0), (0d0, 0d0)]
-        call optimize(test, x, 2, (1d-4, 0d0), (2d0, 0d0))
-        print *, x
 
         contains
                 function test(x) result(z) ! for testing
@@ -232,4 +226,4 @@ program mathaids
                        end do
                 end subroutine          
 
-end program mathaids
+end module mathaids
