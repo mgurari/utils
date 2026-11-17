@@ -14,14 +14,13 @@ module mathaids
         end interface
         
         integer, parameter :: dp = kind(1d0)
-        double complex :: j = (0d0, 1d0)
-        double complex :: e = cmplx(exp(1d0), 0d0, kind=dp)
+        double precision :: e = exp(1d0)
 
         contains
 
                 function eye(n) result(arr) ! identity matrix generator
                         integer, intent(in) :: n
-                        double complex :: arr(n,n)
+                        double precision :: arr(n,n)
                         integer :: i
                         arr = 0d0
                         do i = 1, n
@@ -50,18 +49,18 @@ module mathaids
 
                 subroutine solveGeneralSystem(A, b, x, n, info) ! solves A*x = b square systems, no requirements on matrix structure
                         integer, intent(in) :: n
-                        double complex, dimension(n, n), intent(in) :: A
-                        double complex, dimension(n), intent(in) :: b
+                        double precision, dimension(n, n), intent(in) :: A
+                        double precision, dimension(n), intent(in) :: b
                         integer, intent(out) :: info
-                        double complex, dimension(n), intent(out) :: x
-                        double complex, dimension(n, n) :: A1
-                        double complex, dimension(n) :: xOut
+                        double precision, dimension(n), intent(out) :: x
+                        double precision, dimension(n, n) :: A1
+                        double precision, dimension(n) :: xOut
                         integer, dimension(n) :: piv
                         A1 = A
                         xOut = b
-                        call ZGESV(n, 1, A1, n, piv, xOut, n, info)
+                        call DGESV(n, 1, A1, n, piv, xOut, n, info)
                         if (info /= 0) then
-                                print *, info, ", ZGESV fail"
+                                print *, info, ", DGESV fail"
                                 return
                         end if
                         x = xOut
@@ -77,7 +76,7 @@ module mathaids
                         double complex, dimension(n) :: xOut
                         A1 = A
                         xOut = b
-                        call ZPOSV('U', n, 1, A1, n, xOut, n, info)
+                        call DPOSV('U', n, 1, A1, n, xOut, n, info)
                         if (info > 0) then
                                 print *, "not SPD"
                         else if (info < 0) then
@@ -141,18 +140,18 @@ module mathaids
                 end subroutine findGrad
 
                 subroutine findGrad2(f, x, dx, n) ! complex differencing, more accurate
-                        procedure(compNDimFunc) :: f
+                        procedure(reNDimFunc) :: f
                         integer, intent(in) :: n
-                        double complex, dimension(n), intent(in) :: x
-                        double complex, dimension(n), intent(out) :: dx
-                        double complex, dimension(n) :: e
-                        double complex :: h = (1d-100, 0)
+                        double precision, dimension(n), intent(in) :: x
+                        double precision, dimension(n), intent(out) :: dx
+                        double complex, dimension(n) :: a
+                        double complex :: h = (1d-20, 0)
                         integer :: i
 
                         do i = 1, n
-                                e = (0d0, 0d0)
-                                e(i) = j
-                                dx(i) = AIMAG(f(x + h*e) / h)
+                                a = (0d0, 0d0)
+                                a(i) = j
+                                dx(i) = DIMAG(f(x + h*(0d0,1d0) / h)
                         end do
                 end subroutine findGrad2
 
